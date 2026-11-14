@@ -259,22 +259,6 @@ form.addEventListener('submit', async (e) => {
       'Автомобиль определён по VIN. Совместимость запчастей ещё предстоит проверить.';
     result.appendChild(note);
 
-      if (!value) return;
-
-      const row = document.createElement('p');
-      row.textContent = label + ': ' + value;
-      result.appendChild(row);
-    });
-
-    const partInfo = document.createElement('p');
-    partInfo.textContent = 'Нужная запчасть: ' + part;
-    result.appendChild(partInfo);
-
-    const note = document.createElement('p');
-    note.textContent =
-      'Данные получены из VIN-базы. Совместимость запчастей пока не проверяется.';
-    result.appendChild(note);
-
   } catch (error) {
     result.textContent =
       'Не удалось получить данные: ' + error.message;
