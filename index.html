@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#090e18">
 <title>AUTO FIND AI — Поиск автозапчастей</title>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#090e18;color:#f4f6fb;font-family:Arial,sans-serif}
@@ -26,61 +27,16 @@ input{width:100%;padding:16px;background:#091321;border:1px solid #34445b;border
 input:focus{border-color:#36a9ff}
 input::placeholder{color:#63748b}
 button{width:100%;padding:17px;margin-top:20px;background:#168bea;color:white;border:0;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer}
-button:active{transform:scale(.99)}
-#result{display:none;margin-top:18px;padding:15px;background:#0b2638;border-radius:10px;color:#b9dcf5;font-size:14px;line-height:1.5}
- 
-#result{
-  background:#101e30;
-  border:1px solid #294765;
-  border-radius:14px;
-  padding:20px;
-  margin-top:22px;
-}
-.car-title{
-  font-size:22px;
-  font-weight:bold;
-  color:#fff;
-  margin-bottom:5px;
-}
-.car-subtitle{
-  color:#8fa6bf;
-  font-size:13px;
-  margin-bottom:20px;
-}
-.car-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-.car-item{
-  background:#091624;
-  border:1px solid #26394f;
-  border-radius:9px;
-  padding:12px;
-}
-.car-label{
-  color:#8196ad;
-  font-size:11px;
-  margin-bottom:6px;
-}
-.car-value{
-  color:#fff;
-  font-size:14px;
-  font-weight:bold;
-}
-.part-box{
-  margin-top:16px;
-  padding:14px;
-  background:#0b2a40;
-  border-radius:10px;
-  color:#b9dcf5;
-}
-.car-note{
-  color:#8196ad;
-  font-size:12px;
-  margin-top:15px;
-  line-height:1.5;
-}
+button:disabled{opacity:.6;cursor:wait}
+#result{display:none;margin-top:22px;padding:20px;background:#101e30;border:1px solid #294765;border-radius:14px;color:#b9dcf5;font-size:14px;line-height:1.5}
+.car-title{font-size:22px;font-weight:bold;color:#fff;margin-bottom:5px}
+.car-subtitle{color:#8fa6bf;font-size:13px;margin-bottom:20px}
+.car-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.car-item{background:#091624;border:1px solid #26394f;border-radius:9px;padding:12px}
+.car-label{color:#8196ad;font-size:11px;margin-bottom:6px}
+.car-value{color:#fff;font-size:14px;font-weight:bold}
+.part-box{margin-top:16px;padding:14px;background:#0b2a40;border-radius:10px;color:#b9dcf5}
+.car-note{color:#8196ad;font-size:12px;margin-top:15px;line-height:1.5}
 .categories{max-width:950px;margin:65px auto;padding:0 20px}
 .categories h2{text-align:center;font-size:26px}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:25px}
@@ -98,55 +54,56 @@ header{padding:18px 5%}
 }
 </style>
 </head>
+
 <body>
 <header>
- <div class="logo">AUTO FIND <span>AI</span></div>
- <div class="tag">SMART PARTS SEARCH</div>
+  <div class="logo">AUTO FIND <span>AI</span></div>
+  <div class="tag">SMART PARTS SEARCH</div>
 </header>
 
 <section class="hero">
- <div class="label">УМНЫЙ ПОИСК АВТОЗАПЧАСТЕЙ</div>
- <h1>Найди нужную<br><span>запчасть за минуты</span></h1>
- <p class="subtitle">Укажи VIN автомобиля и название детали. Мы поможем найти подходящие запчасти и аналоги.</p>
+  <div class="label">УМНЫЙ ПОИСК АВТОЗАПЧАСТЕЙ</div>
+  <h1>Найди нужную<br><span>запчасть за минуты</span></h1>
+  <p class="subtitle">Укажи VIN автомобиля и название детали. Мы поможем найти подходящие запчасти и аналоги.</p>
 
- <div class="panel">
-  <h2>Поиск автозапчастей</h2>
-  <div class="hint">Начни с VIN-кода своего автомобиля</div>
+  <div class="panel">
+    <h2>Поиск автозапчастей</h2>
+    <div class="hint">Начни с VIN-кода своего автомобиля</div>
 
-  <form id="searchForm">
-   <label for="vin">VIN-номер автомобиля</label>
-   <input id="vin" maxlength="17" placeholder="Например: JHMCM56557C404453" autocomplete="off" required>
+    <form id="searchForm">
+      <label for="vin">VIN-номер автомобиля</label>
+      <input id="vin" maxlength="17" placeholder="Например: JHMCM56557C404453" autocomplete="off" required>
 
-   <label for="part">Какая запчасть нужна?</label>
-   <input id="part" placeholder="Например: передние тормозные колодки" required>
+      <label for="part">Какая запчасть нужна?</label>
+      <input id="part" placeholder="Например: передние тормозные колодки" required>
 
-   <button type="submit">НАЙТИ ЗАПЧАСТИ →</button>
-  </form>
-  <div id="result"></div>
- </div>
+      <button type="submit">НАЙТИ ЗАПЧАСТИ →</button>
+    </form>
+
+    <div id="result"></div>
+  </div>
 </section>
 
 <section class="categories">
- <h2>Популярные категории</h2>
- <div class="cards">
-  <div class="card"><div class="emoji">🛑</div><p>Тормозная система</p></div>
-  <div class="card"><div class="emoji">⚙️</div><p>Двигатель</p></div>
-  <div class="card"><div class="emoji">🔩</div><p>Подвеска</p></div>
-  <div class="card"><div class="emoji">🔋</div><p>Электрика</p></div>
-  <div class="card"><div class="emoji">🛢️</div><p>Фильтры и масла</p></div>
-  <div class="card"><div class="emoji">🚘</div><p>Кузовные детали</p></div>
- </div>
+  <h2>Популярные категории</h2>
+  <div class="cards">
+    <div class="card"><div class="emoji">🛑</div><p>Тормозная система</p></div>
+    <div class="card"><div class="emoji">⚙️</div><p>Двигатель</p></div>
+    <div class="card"><div class="emoji">🔩</div><p>Подвеска</p></div>
+    <div class="card"><div class="emoji">🔋</div><p>Электрика</p></div>
+    <div class="card"><div class="emoji">🛢️</div><p>Фильтры и масла</p></div>
+    <div class="card"><div class="emoji">🚘</div><p>Кузовные детали</p></div>
+  </div>
 </section>
 
 <section class="info">
- <h2>Почему AUTO FIND AI?</h2>
- <p>Наша цель — упростить подбор автозапчастей. Поиск по VIN, проверка совместимости, подбор аналогов и удобный переход к предложениям магазинов.</p>
+  <h2>Почему AUTO FIND AI?</h2>
+  <p>Наша цель — упростить подбор автозапчастей. Поиск по VIN, проверка совместимости, подбор аналогов и удобный переход к предложениям магазинов.</p>
 </section>
 
 <footer>
- AUTO FIND AI © 2026 · Умный поиск автозапчастей
+  AUTO FIND AI © 2026 · Умный поиск автозапчастей
 </footer>
-
 
 <script>
 const form = document.getElementById('searchForm');
@@ -198,7 +155,6 @@ form.addEventListener('submit', async (e) => {
       );
     }
 
-    
     result.replaceChildren();
 
     const title = document.createElement('div');
@@ -210,7 +166,7 @@ form.addEventListener('submit', async (e) => {
     subtitle.className = 'car-subtitle';
     subtitle.textContent =
       [car.ModelYear, car.Trim, car.BodyClass]
-      .filter(Boolean).join(' · ');
+        .filter(Boolean).join(' · ');
     result.appendChild(subtitle);
 
     const grid = document.createElement('div');
@@ -268,5 +224,6 @@ form.addEventListener('submit', async (e) => {
   }
 });
 </script>
+
 </body>
 </html>
