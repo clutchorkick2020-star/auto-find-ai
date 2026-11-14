@@ -198,81 +198,67 @@ form.addEventListener('submit', async (e) => {
       );
     }
 
-    const fields = [
-      ['Марка', car.Make],
-      ['Модель', car.Model],
-      ['Год выпуска', car.ModelYear],
-      ['Комплектация', car.Trim],
-      ['Кузов', car.BodyClass],
+    
+    result.replaceChildren();
+
+    const title = document.createElement('div');
+    title.className = 'car-title';
+    title.textContent = car.Make + ' ' + car.Model;
+    result.appendChild(title);
+
+    const subtitle = document.createElement('div');
+    subtitle.className = 'car-subtitle';
+    subtitle.textContent =
+      [car.ModelYear, car.Trim, car.BodyClass]
+      .filter(Boolean).join(' · ');
+    result.appendChild(subtitle);
+
+    const grid = document.createElement('div');
+    grid.className = 'car-grid';
+
+    const carFields = [
       ['Двигатель', car.EngineModel],
-      ['Объём', car.DisplacementL ? car.DisplacementL + ' л' : ''],
+      ['Объём', car.DisplacementL
+        ? Number(car.DisplacementL).toFixed(1) + ' л' : ''],
       ['Мощность', car.EngineHP ? car.EngineHP + ' л.с.' : ''],
-      ['Коробка передач', car.TransmissionStyle],
-      ['Количество передач', car.TransmissionSpeeds],
-      ['Топливо', car.FuelTypePrimary]
+      ['Коробка', car.TransmissionStyle === 'Automatic'
+        ? 'Автомат' : car.TransmissionStyle],
+      ['Передачи', car.TransmissionSpeeds],
+      ['Топливо', car.FuelTypePrimary === 'Gasoline'
+        ? 'Бензин' : car.FuelTypePrimary]
     ];
 
-    
-result.replaceChildren();
+    carFields.forEach(([label, value]) => {
+      if (!value) return;
 
-const title = document.createElement('div');
-title.className = 'car-title';
-title.textContent = car.Make + ' ' + car.Model;
-result.appendChild(title);
+      const item = document.createElement('div');
+      item.className = 'car-item';
 
-const subtitle = document.createElement('div');
-subtitle.className = 'car-subtitle';
-subtitle.textContent =
-  [car.ModelYear, car.Trim, car.BodyClass]
-  .filter(Boolean).join(' · ');
-result.appendChild(subtitle);
+      const name = document.createElement('div');
+      name.className = 'car-label';
+      name.textContent = label;
 
-const grid = document.createElement('div');
-grid.className = 'car-grid';
+      const val = document.createElement('div');
+      val.className = 'car-value';
+      val.textContent = value;
 
-const fields = [
-  ['Двигатель', car.EngineModel],
-  ['Объём', car.DisplacementL
-    ? Number(car.DisplacementL).toFixed(1) + ' л' : ''],
-  ['Мощность', car.EngineHP ? car.EngineHP + ' л.с.' : ''],
-  ['Коробка', car.TransmissionStyle === 'Automatic'
-    ? 'Автомат' : car.TransmissionStyle],
-  ['Передачи', car.TransmissionSpeeds],
-  ['Топливо', car.FuelTypePrimary === 'Gasoline'
-    ? 'Бензин' : car.FuelTypePrimary]
-];
+      item.append(name, val);
+      grid.appendChild(item);
+    });
 
-fields.forEach(([label, value]) => {
-  if (!value) return;
+    result.appendChild(grid);
 
-  const item = document.createElement('div');
-  item.className = 'car-item';
+    const partInfo = document.createElement('div');
+    partInfo.className = 'part-box';
+    partInfo.textContent = '🔧 Ищемая запчасть: ' + part;
+    result.appendChild(partInfo);
 
-  const name = document.createElement('div');
-  name.className = 'car-label';
-  name.textContent = label;
+    const note = document.createElement('div');
+    note.className = 'car-note';
+    note.textContent =
+      'Автомобиль определён по VIN. Совместимость запчастей ещё предстоит проверить.';
+    result.appendChild(note);
 
-  const val = document.createElement('div');
-  val.className = 'car-value';
-  val.textContent = value;
-
-  item.append(name, val);
-  grid.appendChild(item);
-});
-
-result.appendChild(grid);
-
-const partInfo = document.createElement('div');
-partInfo.className = 'part-box';
-partInfo.textContent = '🔧 Ищемая запчасть: ' + part;
-result.appendChild(partInfo);
-
-const note = document.createElement('div');
-note.className = 'car-note';
-note.textContent =
-  'Автомобиль определён по VIN. Совместимость запчастей ещё предстоит проверить.';
-result.appendChild(note);
-    fields.forEach(([label, value]) => {
       if (!value) return;
 
       const row = document.createElement('p');
