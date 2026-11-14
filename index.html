@@ -28,6 +28,59 @@ input::placeholder{color:#63748b}
 button{width:100%;padding:17px;margin-top:20px;background:#168bea;color:white;border:0;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer}
 button:active{transform:scale(.99)}
 #result{display:none;margin-top:18px;padding:15px;background:#0b2638;border-radius:10px;color:#b9dcf5;font-size:14px;line-height:1.5}
+ 
+#result{
+  background:#101e30;
+  border:1px solid #294765;
+  border-radius:14px;
+  padding:20px;
+  margin-top:22px;
+}
+.car-title{
+  font-size:22px;
+  font-weight:bold;
+  color:#fff;
+  margin-bottom:5px;
+}
+.car-subtitle{
+  color:#8fa6bf;
+  font-size:13px;
+  margin-bottom:20px;
+}
+.car-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.car-item{
+  background:#091624;
+  border:1px solid #26394f;
+  border-radius:9px;
+  padding:12px;
+}
+.car-label{
+  color:#8196ad;
+  font-size:11px;
+  margin-bottom:6px;
+}
+.car-value{
+  color:#fff;
+  font-size:14px;
+  font-weight:bold;
+}
+.part-box{
+  margin-top:16px;
+  padding:14px;
+  background:#0b2a40;
+  border-radius:10px;
+  color:#b9dcf5;
+}
+.car-note{
+  color:#8196ad;
+  font-size:12px;
+  margin-top:15px;
+  line-height:1.5;
+}
 .categories{max-width:950px;margin:65px auto;padding:0 20px}
 .categories h2{text-align:center;font-size:26px}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:25px}
@@ -159,12 +212,66 @@ form.addEventListener('submit', async (e) => {
       ['Топливо', car.FuelTypePrimary]
     ];
 
-    result.replaceChildren();
+    
+result.replaceChildren();
 
-    const heading = document.createElement('h3');
-    heading.textContent = 'Автомобиль найден!';
-    result.appendChild(heading);
+const title = document.createElement('div');
+title.className = 'car-title';
+title.textContent = car.Make + ' ' + car.Model;
+result.appendChild(title);
 
+const subtitle = document.createElement('div');
+subtitle.className = 'car-subtitle';
+subtitle.textContent =
+  [car.ModelYear, car.Trim, car.BodyClass]
+  .filter(Boolean).join(' · ');
+result.appendChild(subtitle);
+
+const grid = document.createElement('div');
+grid.className = 'car-grid';
+
+const fields = [
+  ['Двигатель', car.EngineModel],
+  ['Объём', car.DisplacementL
+    ? Number(car.DisplacementL).toFixed(1) + ' л' : ''],
+  ['Мощность', car.EngineHP ? car.EngineHP + ' л.с.' : ''],
+  ['Коробка', car.TransmissionStyle === 'Automatic'
+    ? 'Автомат' : car.TransmissionStyle],
+  ['Передачи', car.TransmissionSpeeds],
+  ['Топливо', car.FuelTypePrimary === 'Gasoline'
+    ? 'Бензин' : car.FuelTypePrimary]
+];
+
+fields.forEach(([label, value]) => {
+  if (!value) return;
+
+  const item = document.createElement('div');
+  item.className = 'car-item';
+
+  const name = document.createElement('div');
+  name.className = 'car-label';
+  name.textContent = label;
+
+  const val = document.createElement('div');
+  val.className = 'car-value';
+  val.textContent = value;
+
+  item.append(name, val);
+  grid.appendChild(item);
+});
+
+result.appendChild(grid);
+
+const partInfo = document.createElement('div');
+partInfo.className = 'part-box';
+partInfo.textContent = '🔧 Ищемая запчасть: ' + part;
+result.appendChild(partInfo);
+
+const note = document.createElement('div');
+note.className = 'car-note';
+note.textContent =
+  'Автомобиль определён по VIN. Совместимость запчастей ещё предстоит проверить.';
+result.appendChild(note);
     fields.forEach(([label, value]) => {
       if (!value) return;
 
