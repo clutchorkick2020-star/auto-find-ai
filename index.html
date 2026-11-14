@@ -94,29 +94,100 @@ header{padding:18px 5%}
  AUTO FIND AI © 2026 · Умный поиск автозапчастей
 </footer>
 
-<script>
-const form=document.getElementById('searchForm');
-const vinInput=document.getElementById('vin');
-const result=document.getElementById('result');
 
-vinInput.addEventListener('input',()=>{
- vinInput.value=vinInput.value.toUpperCase().replace(/[^A-HJ-NPR-Z0-9]/g,'');
+<script>
+const form = document.getElementById('searchForm');
+const vinInput = document.getElementById('vin');
+const result = document.getElementById('result');
+const button = form.querySelector('button');
+
+vinInput.addEventListener('input', () => {
+  vinInput.value = vinInput.value
+    .toUpperCase()
+    .replace(/[^A-HJ-NPR-Z0-9]/g, '');
 });
 
-form.addEventListener('submit',(e)=>{
- e.preventDefault();
- const vin=vinInput.value.trim();
- const part=document.getElementById('part').value.trim();
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
 
- if(!/^[A-HJ-NPR-Z0-9]{17}$/.test(vin)){
-  result.style.display='block';
-  result.textContent='Проверь VIN: он должен содержать 17 символов. Буквы I, O и Q не используются.';
-  return;
- }
+  const vin = vinInput.value.trim();
+  const part = document.getElementById('part').value.trim();
 
- result.style.display='block';
- result.textContent='Заявка подготовлена! VIN: '+vin+'. Запчасть: '+part+'. Подключение реального каталога запчастей будет следующим этапом.';
+  if (!/^[A-HJ-NPR-Z0-9]{17}$/.test(vin)) {
+    result.style.display = 'block';
+    result.textContent = 'Ошибка: VIN должен содержать 17 символов.';
+    return;
+  }
+
+  result.style.display = 'block';
+  result.textContent = 'Расшифровываем VIN...';
+  button.disabled = true;
+  button.textContent = 'ЗАГРУЗКА...';
+
+  try {
+    const url =
+      'https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValuesExtended/' +
+      encodeURIComponent(vin) +
+      '?format=json';
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error('Ошибка соединения с базой VIN.');
+    }
+
+    const data = await response.json();
+    const car = data.Results && data.Results[0];
+
+    if (!car || car.ErrorCode !== '0') {
+      throw new Error(
+        car?.ErrorText || 'Не удалось расшифровать VIN.'
+      );
+    }
+
+    const fields = [
+      ['Марка', car.Make],
+      ['Модель', car.Model],
+      ['Год выпуска', car.ModelYear],
+      ['Комплектация', car.Trim],
+      ['Кузов', car.BodyClass],
+      ['Двигатель', car.EngineModel],
+      ['Объём', car.DisplacementL ? car.DisplacementL + ' л' : ''],
+      ['Мощность', car.EngineHP ? car.EngineHP + ' л.с.' : ''],
+      ['Коробка передач', car.TransmissionStyle],
+      ['Количество передач', car.TransmissionSpeeds],
+      ['Топливо', car.FuelTypePrimary]
+    ];
+
+    result.replaceChildren();
+
+    const heading = document.createElement('h3');
+    heading.textContent = 'Автомобиль найден!';
+    result.appendChild(heading);
+
+    fields.forEach(([label, value]) => {
+      if (!value) return;
+
+      const row = document.createElement('p');
+      row.textContent = label + ': ' + value;
+      result.appendChild(row);
+    });
+
+    const partInfo = document.createElement('p');
+    partInfo.textContent = 'Нужная запчасть: ' + part;
+    result.appendChild(partInfo);
+
+    const note = document.createElement('p');
+    note.textContent =
+      'Данные получены из VIN-базы. Совместимость запчастей пока не проверяется.';
+    result.appendChild(note);
+
+  } catch (error) {
+    result.textContent =
+      'Не удалось получить данные: ' + error.message;
+  } finally {
+    button.disabled = false;
+    button.textContent = 'НАЙТИ ЗАПЧАСТИ →';
+  }
 });
 </script>
-</body>
-</html>
