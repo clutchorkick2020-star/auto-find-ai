@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#090e18">
 <title>AUTO FIND AI — Поиск автозапчастей</title>
-
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#090e18;color:#f4f6fb;font-family:Arial,sans-serif}
@@ -14,11 +13,11 @@ header{padding:22px 6%;display:flex;justify-content:space-between;align-items:ce
 .logo{font-size:22px;font-weight:800;letter-spacing:1px}
 .logo span{color:#36a9ff}
 .tag{font-size:12px;color:#8b9bb0}
-.hero{max-width:1050px;margin:65px auto 40px;padding:0 20px;text-align:center}
+.hero{max-width:1050px;margin:55px auto 40px;padding:0 20px;text-align:center}
 .label{color:#39aaff;font-size:12px;letter-spacing:3px;font-weight:bold}
 h1{font-size:clamp(34px,7vw,58px);line-height:1.1;margin:20px 0}
 h1 span{color:#36a9ff}
-.subtitle{color:#9aa9bd;font-size:16px;line-height:1.6;max-width:600px;margin:0 auto}
+.subtitle{color:#9aa9bd;font-size:16px;line-height:1.6;max-width:600px;margin:auto}
 .panel{max-width:760px;margin:38px auto;background:#121c2b;border:1px solid #26364c;border-radius:18px;padding:25px;text-align:left;box-shadow:0 20px 70px #0005}
 .panel h2{font-size:20px;margin:0 0 8px}
 .hint{font-size:13px;color:#91a0b5;margin-bottom:24px}
@@ -27,203 +26,190 @@ input{width:100%;padding:16px;background:#091321;border:1px solid #34445b;border
 input:focus{border-color:#36a9ff}
 input::placeholder{color:#63748b}
 button{width:100%;padding:17px;margin-top:20px;background:#168bea;color:white;border:0;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer}
-button:disabled{opacity:.6;cursor:wait}
-#result{display:none;margin-top:22px;padding:20px;background:#101e30;border:1px solid #294765;border-radius:14px;color:#b9dcf5;font-size:14px;line-height:1.5}
-.car-title{font-size:22px;font-weight:bold;color:#fff;margin-bottom:5px}
-.car-subtitle{color:#8fa6bf;font-size:13px;margin-bottom:20px}
-.car-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.car-item{background:#091624;border:1px solid #26394f;border-radius:9px;padding:12px}
-.car-label{color:#8196ad;font-size:11px;margin-bottom:6px}
-.car-value{color:#fff;font-size:14px;font-weight:bold}
-.part-box{margin-top:16px;padding:14px;background:#0b2a40;border-radius:10px;color:#b9dcf5}
-.car-note{color:#8196ad;font-size:12px;margin-top:15px;line-height:1.5}
+button:disabled{opacity:.6}
+#result{display:none;margin-top:20px}
+.message{padding:15px;border-radius:10px;background:#0b2638;color:#b9dcf5;line-height:1.5;font-size:14px}
+.vehicle{margin-top:15px;padding:20px;background:#0b1726;border:1px solid #26364c;border-radius:12px}
+.vehicle h3{margin:0 0 16px;color:#36a9ff;font-size:21px}
+.vehicle-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vehicle-item{padding:12px;background:#121f30;border-radius:8px;min-width:0}
+.vehicle-item small{display:block;color:#8294aa;margin-bottom:6px}
+.vehicle-item strong{font-size:14px;overflow-wrap:anywhere}
+.note{font-size:12px;color:#8294aa;line-height:1.5;margin-top:15px}
 .categories{max-width:950px;margin:65px auto;padding:0 20px}
 .categories h2{text-align:center;font-size:26px}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:25px}
 .card{background:#121c2b;border:1px solid #26364c;border-radius:13px;padding:22px 12px;text-align:center}
-.card .emoji{font-size:30px}
+.emoji{font-size:30px}
 .card p{font-size:14px;color:#dce6f4;margin-bottom:0}
 .info{max-width:850px;margin:65px auto;padding:0 20px;text-align:center}
 .info p{color:#93a3b8;line-height:1.7}
 footer{text-align:center;padding:30px 15px;color:#65758b;border-top:1px solid #202b3b;font-size:12px}
 @media(max-width:550px){
-.hero{margin-top:45px}
+.hero{margin-top:40px}
 .panel{padding:19px}
 .cards{grid-template-columns:repeat(2,1fr)}
 header{padding:18px 5%}
+.vehicle-grid{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
-
 <body>
 <header>
-  <div class="logo">AUTO FIND <span>AI</span></div>
-  <div class="tag">SMART PARTS SEARCH</div>
+ <div class="logo">AUTO FIND <span>AI</span></div>
+ <div class="tag">SMART PARTS SEARCH</div>
 </header>
 
 <section class="hero">
-  <div class="label">УМНЫЙ ПОИСК АВТОЗАПЧАСТЕЙ</div>
-  <h1>Найди нужную<br><span>запчасть за минуты</span></h1>
-  <p class="subtitle">Укажи VIN автомобиля и название детали. Мы поможем найти подходящие запчасти и аналоги.</p>
+ <div class="label">УМНЫЙ ПОИСК АВТОЗАПЧАСТЕЙ</div>
+ <h1>Найди нужную<br><span>запчасть за минуты</span></h1>
+ <p class="subtitle">Укажи VIN автомобиля. Мы определим характеристики машины и поможем подготовить подбор запчастей.</p>
 
-  <div class="panel">
-    <h2>Поиск автозапчастей</h2>
-    <div class="hint">Начни с VIN-кода своего автомобиля</div>
+ <div class="panel">
+  <h2>Поиск автомобиля</h2>
+  <div class="hint">Бесплатное определение автомобиля по VIN</div>
 
-    <form id="searchForm">
-      <label for="vin">VIN-номер автомобиля</label>
-      <input id="vin" maxlength="17" placeholder="Например: JHMCM56557C404453" autocomplete="off" required>
+  <form id="searchForm">
+   <label for="vin">VIN-номер автомобиля</label>
+   <input id="vin" maxlength="17" placeholder="Например: JHMCM56557C404453" autocomplete="off" required>
 
-      <label for="part">Какая запчасть нужна?</label>
-      <input id="part" placeholder="Например: передние тормозные колодки" required>
+   <label for="part">Какая запчасть нужна? (необязательно)</label>
+   <input id="part" placeholder="Например: передние тормозные колодки">
 
-      <button type="submit">НАЙТИ ЗАПЧАСТИ →</button>
-    </form>
+   <button id="searchButton" type="submit">ОПРЕДЕЛИТЬ АВТОМОБИЛЬ →</button>
+  </form>
 
-    <div id="result"></div>
-  </div>
+  <div id="result"></div>
+ </div>
 </section>
 
 <section class="categories">
-  <h2>Популярные категории</h2>
-  <div class="cards">
-    <div class="card"><div class="emoji">🛑</div><p>Тормозная система</p></div>
-    <div class="card"><div class="emoji">⚙️</div><p>Двигатель</p></div>
-    <div class="card"><div class="emoji">🔩</div><p>Подвеска</p></div>
-    <div class="card"><div class="emoji">🔋</div><p>Электрика</p></div>
-    <div class="card"><div class="emoji">🛢️</div><p>Фильтры и масла</p></div>
-    <div class="card"><div class="emoji">🚘</div><p>Кузовные детали</p></div>
-  </div>
+ <h2>Категории запчастей</h2>
+ <div class="cards">
+  <div class="card"><div class="emoji">🛑</div><p>Тормозная система</p></div>
+  <div class="card"><div class="emoji">⚙️</div><p>Двигатель</p></div>
+  <div class="card"><div class="emoji">🔩</div><p>Подвеска</p></div>
+  <div class="card"><div class="emoji">🔋</div><p>Электрика</p></div>
+  <div class="card"><div class="emoji">🛢️</div><p>Фильтры и масла</p></div>
+  <div class="card"><div class="emoji">🚘</div><p>Кузовные детали</p></div>
+ </div>
 </section>
 
 <section class="info">
-  <h2>Почему AUTO FIND AI?</h2>
-  <p>Наша цель — упростить подбор автозапчастей. Поиск по VIN, проверка совместимости, подбор аналогов и удобный переход к предложениям магазинов.</p>
+ <h2>Почему AUTO FIND AI?</h2>
+ <p>Наша цель — сделать удобный бесплатный сервис поиска автозапчастей по VIN с проверкой совместимости и подбором аналогов.</p>
 </section>
 
-<footer>
-  AUTO FIND AI © 2026 · Умный поиск автозапчастей
-</footer>
+<footer>AUTO FIND AI © 2026 · Умный поиск автозапчастей</footer>
 
 <script>
-const form = document.getElementById('searchForm');
-const vinInput = document.getElementById('vin');
-const result = document.getElementById('result');
-const button = form.querySelector('button');
+const form=document.getElementById('searchForm');
+const vinInput=document.getElementById('vin');
+const result=document.getElementById('result');
+const searchButton=document.getElementById('searchButton');
 
-vinInput.addEventListener('input', () => {
-  vinInput.value = vinInput.value
-    .toUpperCase()
-    .replace(/[^A-HJ-NPR-Z0-9]/g, '');
+vinInput.addEventListener('input',()=>{
+ vinInput.value=vinInput.value.toUpperCase().replace(/[^A-HJ-NPR-Z0-9]/g,'');
 });
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
+function showMessage(message){
+ result.style.display='block';
+ result.replaceChildren();
+ const box=document.createElement('div');
+ box.className='message';
+ box.textContent=message;
+ result.appendChild(box);
+}
 
-  const vin = vinInput.value.trim();
-  const part = document.getElementById('part').value.trim();
+function addItem(container,label,value){
+ if(!value || value==='Not Applicable' || value==='0') return;
+ const item=document.createElement('div');
+ item.className='vehicle-item';
+ const small=document.createElement('small');
+ small.textContent=label;
+ const strong=document.createElement('strong');
+ strong.textContent=value;
+ item.append(small,strong);
+ container.appendChild(item);
+}
 
-  if (!/^[A-HJ-NPR-Z0-9]{17}$/.test(vin)) {
-    result.style.display = 'block';
-    result.textContent = 'Ошибка: VIN должен содержать 17 символов.';
-    return;
+form.addEventListener('submit',async(e)=>{
+ e.preventDefault();
+ const vin=vinInput.value.trim();
+ const part=document.getElementById('part').value.trim();
+
+ if(!/^[A-HJ-NPR-Z0-9]{17}$/.test(vin)){
+  showMessage('Проверь VIN: он должен содержать 17 символов. Буквы I, O и Q не используются.');
+  return;
+ }
+
+ searchButton.disabled=true;
+ searchButton.textContent='ИДЁТ ПОИСК...';
+ showMessage('Подключаемся к базе данных и определяем автомобиль...');
+
+ try{
+  const url='https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/'+encodeURIComponent(vin)+'?format=json';
+  const response=await fetch(url);
+  if(!response.ok) throw new Error('API недоступен');
+  const data=await response.json();
+  const car=data.Results && data.Results[0];
+
+  if(!car || (!car.Make && !car.Model)){
+   showMessage('Не удалось определить автомобиль. Возможно, этот VIN отсутствует в базе. Попробуй проверить номер.');
+   return;
   }
 
-  result.style.display = 'block';
-  result.textContent = 'Расшифровываем VIN...';
-  button.disabled = true;
-  button.textContent = 'ЗАГРУЗКА...';
+  result.replaceChildren();
+  result.style.display='block';
 
-  try {
-    const url =
-      'https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValuesExtended/' +
-      encodeURIComponent(vin) +
-      '?format=json';
+  const card=document.createElement('div');
+  card.className='vehicle';
 
-    const response = await fetch(url);
+  const title=document.createElement('h3');
+  title.textContent=(car.ModelYear||'Автомобиль')+' '+(car.Make||'')+' '+(car.Model||'');
+  card.appendChild(title);
 
-    if (!response.ok) {
-      throw new Error('Ошибка соединения с базой VIN.');
-    }
+  const grid=document.createElement('div');
+  grid.className='vehicle-grid';
 
-    const data = await response.json();
-    const car = data.Results && data.Results[0];
+  addItem(grid,'Марка',car.Make);
+  addItem(grid,'Модель',car.Model);
+  addItem(grid,'Год выпуска',car.ModelYear);
+  addItem(grid,'Двигатель',car.EngineModel);
+  addItem(grid,'Объём двигателя',car.DisplacementL ? car.DisplacementL+' л' : '');
+  addItem(grid,'Цилиндры',car.EngineCylinders);
+  addItem(grid,'Мощность',car.EngineHP ? car.EngineHP+' л.с.' : '');
+  addItem(grid,'Тип топлива',car.FuelTypePrimary);
+  addItem(grid,'Коробка передач',car.TransmissionStyle);
+  addItem(grid,'Привод',car.DriveType);
+  addItem(grid,'Кузов',car.BodyClass);
+  addItem(grid,'Страна производства',car.PlantCountry);
 
-    if (!car || car.ErrorCode !== '0') {
-      throw new Error(
-        car?.ErrorText || 'Не удалось расшифровать VIN.'
-      );
-    }
+  card.appendChild(grid);
 
-    result.replaceChildren();
+  const note=document.createElement('div');
+  note.className='note';
+  note.textContent='Данные получены из NHTSA vPIC. База ориентирована преимущественно на автомобили рынка США. Некоторые характеристики могут отсутствовать или определяться неточно.';
+  card.appendChild(note);
 
-    const title = document.createElement('div');
-    title.className = 'car-title';
-    title.textContent = car.Make + ' ' + car.Model;
-    result.appendChild(title);
-
-    const subtitle = document.createElement('div');
-    subtitle.className = 'car-subtitle';
-    subtitle.textContent =
-      [car.ModelYear, car.Trim, car.BodyClass]
-        .filter(Boolean).join(' · ');
-    result.appendChild(subtitle);
-
-    const grid = document.createElement('div');
-    grid.className = 'car-grid';
-
-    const carFields = [
-      ['Двигатель', car.EngineModel],
-      ['Объём', car.DisplacementL
-        ? Number(car.DisplacementL).toFixed(1) + ' л' : ''],
-      ['Мощность', car.EngineHP ? car.EngineHP + ' л.с.' : ''],
-      ['Коробка', car.TransmissionStyle === 'Automatic'
-        ? 'Автомат' : car.TransmissionStyle],
-      ['Передачи', car.TransmissionSpeeds],
-      ['Топливо', car.FuelTypePrimary === 'Gasoline'
-        ? 'Бензин' : car.FuelTypePrimary]
-    ];
-
-    carFields.forEach(([label, value]) => {
-      if (!value) return;
-
-      const item = document.createElement('div');
-      item.className = 'car-item';
-
-      const name = document.createElement('div');
-      name.className = 'car-label';
-      name.textContent = label;
-
-      const val = document.createElement('div');
-      val.className = 'car-value';
-      val.textContent = value;
-
-      item.append(name, val);
-      grid.appendChild(item);
-    });
-
-    result.appendChild(grid);
-
-    const partInfo = document.createElement('div');
-    partInfo.className = 'part-box';
-    partInfo.textContent = '🔧 Ищемая запчасть: ' + part;
-    result.appendChild(partInfo);
-
-    const note = document.createElement('div');
-    note.className = 'car-note';
-    note.textContent =
-      'Автомобиль определён по VIN. Совместимость запчастей ещё предстоит проверить.';
-    result.appendChild(note);
-
-  } catch (error) {
-    result.textContent =
-      'Не удалось получить данные: ' + error.message;
-  } finally {
-    button.disabled = false;
-    button.textContent = 'НАЙТИ ЗАПЧАСТИ →';
+  if(part){
+   const request=document.createElement('div');
+   request.className='message';
+   request.style.marginTop='14px';
+   request.textContent='Запрошенная деталь: '+part+'. Следующий этап — подключение каталога запчастей и проверка совместимости.';
+   card.appendChild(request);
   }
+
+  result.appendChild(card);
+
+ }catch(error){
+  showMessage('Не удалось связаться с базой данных. Проверь интернет-соединение и попробуй ещё раз.');
+ }finally{
+  searchButton.disabled=false;
+  searchButton.textContent='ОПРЕДЕЛИТЬ АВТОМОБИЛЬ →';
+ }
 });
 </script>
-
 </body>
 </html>
+
