@@ -29,6 +29,7 @@ button{width:100%;padding:17px;margin-top:20px;background:#168bea;color:white;bo
 button:disabled{opacity:.6}
 #result{display:none;margin-top:20px}
 .message{padding:15px;border-radius:10px;background:#0b2638;color:#b9dcf5;line-height:1.5;font-size:14px}
+.warning{margin-bottom:14px;padding:13px;border-radius:10px;background:#382b13;border:1px solid #806025;color:#ffdda0;font-size:13px;line-height:1.5}
 .vehicle{margin-top:15px;padding:20px;background:#0b1726;border:1px solid #26364c;border-radius:12px}
 .vehicle h3{margin:0 0 16px;color:#36a9ff;font-size:21px}
 .vehicle-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -135,6 +136,7 @@ function addItem(container,label,value){
 
 form.addEventListener('submit',async(e)=>{
  e.preventDefault();
+
  const vin=vinInput.value.trim();
  const part=document.getElementById('part').value.trim();
 
@@ -150,17 +152,34 @@ form.addEventListener('submit',async(e)=>{
  try{
   const url='https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/'+encodeURIComponent(vin)+'?format=json';
   const response=await fetch(url);
+
   if(!response.ok) throw new Error('API недоступен');
+
   const data=await response.json();
   const car=data.Results && data.Results[0];
 
-  if(!car || (!car.Make && !car.Model)){
-   showMessage('Не удалось определить автомобиль. Возможно, этот VIN отсутствует в базе. Попробуй проверить номер.');
+  if(!car){
+   showMessage('База не вернула данные по этому VIN. Проверь номер и попробуй ещё раз.');
+   return;
+  }
+
+  const errorText=car.ErrorText || '';
+  const checkDigitError=/check digit|does not calculate properly/i.test(errorText);
+
+  if(!car.Make && !car.Model){
+   showMessage('Не удалось определить автомобиль. Возможно, этот VIN отсутствует в базе NHTSA. Для автомобилей некоторых рынков база может не содержать данных.');
    return;
   }
 
   result.replaceChildren();
   result.style.display='block';
+
+  if(checkDigitError){
+   const warning=document.createElement('div');
+   warning.className='warning';
+   warning.textContent='Внимание: база сообщает о несовпадении контрольной цифры VIN (9-й символ). Но автомобиль удалось определить, поэтому мы показываем полученные данные. Проверь VIN по документам или табличке автомобиля.';
+   result.appendChild(warning);
+  }
 
   const card=document.createElement('div');
   card.className='vehicle';
@@ -175,6 +194,7 @@ form.addEventListener('submit',async(e)=>{
   addItem(grid,'Марка',car.Make);
   addItem(grid,'Модель',car.Model);
   addItem(grid,'Год выпуска',car.ModelYear);
+  addItem(grid,'Комплектация',car.Trim);
   addItem(grid,'Двигатель',car.EngineModel);
   addItem(grid,'Объём двигателя',car.DisplacementL ? car.DisplacementL+' л' : '');
   addItem(grid,'Цилиндры',car.EngineCylinders);
@@ -189,7 +209,7 @@ form.addEventListener('submit',async(e)=>{
 
   const note=document.createElement('div');
   note.className='note';
-  note.textContent='Данные получены из NHTSA vPIC. База ориентирована преимущественно на автомобили рынка США. Некоторые характеристики могут отсутствовать или определяться неточно.';
+  note.textContent='Данные получены из NHTSA vPIC. База ориентирована преимущественно на автомобили рынка США. Некоторые характеристики могут отсутствовать или определяться неточно. Перед подбором запчастей необходимо дополнительно проверить совместимость.';
   card.appendChild(note);
 
   if(part){
@@ -212,4 +232,3 @@ form.addEventListener('submit',async(e)=>{
 </script>
 </body>
 </html>
-
