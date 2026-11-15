@@ -164,7 +164,7 @@ form.addEventListener('submit',async(e)=>{
   }
 
   const errorText=car.ErrorText || '';
-  const checkDigitError=/check digit|does not calculate properly/i.test(errorText);
+  const checkDigitError=/does not calculate properly/i.test(errorText);
 
   if(!car.Make && !car.Model){
    showMessage('Не удалось определить автомобиль. Возможно, этот VIN отсутствует в базе NHTSA. Для автомобилей некоторых рынков база может не содержать данных.');
