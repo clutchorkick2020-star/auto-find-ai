@@ -3,422 +3,387 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#090e18">
 <title>AUTO FIND AI — Поиск автозапчастей</title>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#090e18;color:#f4f6fb;font-family:Arial,sans-serif}
-header{padding:18px 20px;background:#0c1421;border-bottom:1px solid #1c2b40;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:23px;font-weight:800}.logo span{color:#35a8ff}
-.header-small{font-size:11px;color:#91a5bd}
-.hero{text-align:center;padding:32px 18px 22px}
-.eyebrow{font-size:12px;letter-spacing:3px;color:#35a8ff;font-weight:bold}
-.hero h1{font-size:30px;line-height:1.2;margin:17px 0}
-.hero h1 span{color:#35a8ff}
-.hero p{color:#aab9cc;line-height:1.5;margin:0 auto;max-width:400px}
-main{width:min(850px,100%);margin:auto;padding:14px 16px 40px}
-.panel{background:#111d2d;border:1px solid #24364e;border-radius:16px;padding:18px;margin-bottom:18px}
-h2{font-size:20px;margin:0 0 8px}
-.sub{font-size:13px;color:#9aabc0;line-height:1.5;margin:0 0 16px}
-label{display:block;font-size:13px;color:#c3d0df;margin:15px 0 8px}
-input{width:100%;padding:16px;border:1px solid #344b67;border-radius:11px;background:#081321;color:white;font-size:16px;outline:none}
-input:focus{border-color:#35a8ff}
-button{cursor:pointer;font-size:14px;font-weight:bold;border:0;border-radius:10px;padding:14px}
-.primary{width:100%;margin-top:12px;background:#168bea;color:white}
-.primary:disabled{opacity:.55}
-.status{font-size:13px;color:#a9bad0;line-height:1.5;margin-top:12px}
-.error{color:#ff9292}.success{color:#71dfa2}
-.hidden{display:none!important}
-.car-title{font-size:21px;color:#35a8ff;margin:0 0 14px}
-.car-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.info{padding:12px;background:#0b1726;border-radius:9px;min-width:0}
-.info small{display:block;color:#91a5bd;font-size:12px;margin-bottom:6px}
-.info strong{font-size:14px;overflow-wrap:anywhere}
-.warning{margin-top:12px;padding:12px;background:#392b16;border:1px solid #795a25;border-radius:9px;color:#ffd58a;font-size:12px;line-height:1.5}
-.search-box{margin-top:18px;padding-top:16px;border-top:1px solid #26384e}
-.search-box h3{margin:0 0 8px;font-size:17px}
-.search-box p{font-size:13px;color:#9aabc0;line-height:1.5}
-.category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin-top:14px}
-.category{background:#14243a;color:white;border:1px solid #304761;text-align:left;min-height:95px;padding:13px}
-.category:active,.part:active{transform:scale(.98)}
-.category:hover,.part:hover{border-color:#35a8ff}
-.emoji{display:block;font-size:24px;margin-bottom:9px}
-.cat-name{font-size:13px}
-.part{width:100%;display:block;text-align:left;background:#0b1726;border:1px solid #304761;color:white;margin-top:10px}
-.part small{display:block;color:#9aabc0;margin-top:7px;font-weight:normal}
-.back{background:#263b54;color:white;margin-bottom:14px}
-.detail-line{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #26384e;font-size:13px}
-.detail-line span{color:#9aabc0}
-.detail-line strong{text-align:right;overflow-wrap:anywhere}
-.note{font-size:13px;color:#ffd58a;line-height:1.5;margin-top:14px}
-.empty{padding:14px;background:#0b1726;border-radius:10px;color:#a9bad0;font-size:13px;line-height:1.5;margin-top:10px}
-footer{text-align:center;color:#71839b;font-size:12px;padding:22px}
-@media(max-width:380px){.hero h1{font-size:26px}.panel{padding:14px}}
+header{padding:22px 6%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #202b3b}
+.logo{font-size:22px;font-weight:800;letter-spacing:1px}
+.logo span{color:#36a9ff}
+.tag{font-size:12px;color:#8b9bb0}
+.hero{max-width:1050px;margin:55px auto 40px;padding:0 20px;text-align:center}
+.label{color:#39aaff;font-size:12px;letter-spacing:3px;font-weight:bold}
+h1{font-size:clamp(34px,7vw,58px);line-height:1.1;margin:20px 0}
+h1 span{color:#36a9ff}
+.subtitle{color:#9aa9bd;font-size:16px;line-height:1.6;max-width:600px;margin:auto}
+.panel{max-width:760px;margin:38px auto;background:#121c2b;border:1px solid #26364c;border-radius:18px;padding:25px;text-align:left;box-shadow:0 20px 70px #0005}
+.panel h2{font-size:20px;margin:0 0 8px}
+.hint{font-size:13px;color:#91a0b5;margin-bottom:24px}
+label{display:block;font-size:13px;color:#bdc9d9;margin:17px 0 9px}
+input{width:100%;padding:16px;background:#091321;border:1px solid #34445b;border-radius:10px;color:white;font-size:16px;outline:none}
+input:focus{border-color:#36a9ff}
+input::placeholder{color:#63748b}
+button{width:100%;padding:17px;margin-top:20px;background:#168bea;color:white;border:0;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.6}
+#result{display:none;margin-top:22px;padding:20px;background:#101e30;border:1px solid #294765;border-radius:14px;color:#b9dcf5;font-size:14px;line-height:1.5}
+.car-title{font-size:22px;font-weight:bold;color:white;margin-bottom:5px}
+.car-subtitle{color:#8fa6bf;font-size:13px;margin-bottom:20px}
+.car-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.car-item{background:#091624;border:1px solid #26394f;border-radius:9px;padding:12px}
+.car-label{color:#8196ad;font-size:11px;margin-bottom:6px}
+.car-value{color:white;font-size:14px;font-weight:bold}
+.part-box{margin-top:16px;padding:14px;background:#0b2a40;border-radius:10px;color:#b9dcf5}
+.car-note{color:#8196ad;font-size:12px;margin-top:15px;line-height:1.5}
+.search-title{font-size:19px;color:white;margin:25px 0 10px}
+.search-description{font-size:13px;color:#91a0b5;margin-bottom:15px}
+.search-links{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.search-link{display:block;text-decoration:none;text-align:center;padding:15px 8px;background:#162b42;border:1px solid #31506c;border-radius:10px;color:#d9efff;font-weight:bold;font-size:14px}
+.search-link:hover{background:#20466b}
+.warning{padding:12px;margin-top:15px;border-radius:9px;background:#382c18;color:#f5d99c;font-size:12px}
+.categories{max-width:950px;margin:65px auto;padding:0 20px}
+.categories h2{text-align:center;font-size:26px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:25px}
+.card{background:#121c2b;border:1px solid #26364c;border-radius:13px;padding:22px 12px;text-align:center;cursor:pointer;color:white}
+.card:hover{border-color:#36a9ff}
+.card .emoji{font-size:30px}
+.card p{font-size:14px;color:#dce6f4;margin-bottom:0}
+.info{max-width:850px;margin:65px auto;padding:0 20px;text-align:center}
+.info p{color:#93a3b8;line-height:1.7}
+footer{text-align:center;padding:30px 15px;color:#65758b;border-top:1px solid #202b3b;font-size:12px}
+@media(max-width:550px){
+.hero{margin-top:40px}
+.panel{padding:17px}
+.cards{grid-template-columns:repeat(2,1fr)}
+header{padding:18px 5%}
+.search-links{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
+
 <body>
 
 <header>
-  <div class="logo">AUTO FIND <span>AI</span></div>
-  <div class="header-small">SMART PARTS SEARCH</div>
+<div class="logo">AUTO FIND <span>AI</span></div>
+<div class="tag">SMART PARTS SEARCH</div>
 </header>
 
 <section class="hero">
-  <div class="eyebrow">УМНЫЙ ПОИСК АВТОЗАПЧАСТЕЙ</div>
-  <h1>Найди нужную<br><span>запчасть за минуты</span></h1>
-  <p>Определи автомобиль по VIN и подбери необходимые запчасти.</p>
+
+<div class="label">УМНЫЙ ПОИСК АВТОЗАПЧАСТЕЙ</div>
+
+<h1>Найди нужную<br><span>запчасть за минуты</span></h1>
+
+<p class="subtitle">
+Укажи VIN автомобиля и название детали.
+Подберём поисковые предложения с учётом автомобиля.
+</p>
+
+<div class="panel">
+
+<h2>Поиск автозапчастей</h2>
+<div class="hint">Сначала определим твой автомобиль</div>
+
+<form id="searchForm">
+
+<label for="vin">VIN-номер автомобиля</label>
+<input id="vin" maxlength="17"
+placeholder="Например: JHMCM56557C404453"
+autocomplete="off" required>
+
+<label for="part">Какая запчасть нужна?</label>
+<input id="part"
+placeholder="Например: передние тормозные колодки"
+required>
+
+<button id="searchButton" type="submit">
+НАЙТИ ЗАПЧАСТИ →
+</button>
+
+</form>
+
+<div id="result"></div>
+
+</div>
 </section>
 
-<main>
-  <section class="panel">
-    <h2>Поиск автомобиля</h2>
-    <p class="sub">Бесплатное определение автомобиля по VIN</p>
-    <label for="vinInput">VIN-номер автомобиля</label>
-    <input id="vinInput" maxlength="17" placeholder="Например: 2HGES16562H518400" autocomplete="off">
-    <button class="primary" id="searchButton">ОПРЕДЕЛИТЬ АВТОМОБИЛЬ →</button>
-    <div id="searchStatus" class="status">Введите VIN-код автомобиля для поиска.</div>
+<section class="categories">
 
-    <div id="carSection" class="hidden">
-      <div style="height:18px"></div>
-      <div id="carTitle" class="car-title"></div>
-      <div id="carInfo" class="car-grid"></div>
-      <div id="vinWarning"></div>
+<h2>Популярные категории</h2>
 
-      <div class="search-box">
-        <h3>Какая запчасть нужна?</h3>
-        <p>Напишите название детали или номер OEM. Например: передние тормозные колодки.</p>
-        <input id="partSearchInput" placeholder="Введите название или номер детали">
-        <button class="primary" id="partSearchButton">НАЙТИ ЗАПЧАСТЬ →</button>
-        <div id="partSearchStatus" class="status"></div>
-      </div>
+<div class="cards">
 
-      <div style="height:18px"></div>
-      <h3 style="font-size:17px;margin:0">Выбери категорию запчастей</h3>
-      <div id="categoryGrid" class="category-grid"></div>
-    </div>
-  </section>
+<button class="card" type="button" data-part="Тормозные колодки и диски">
+<div class="emoji">🛑</div>
+<p>Тормозная система</p>
+</button>
 
-  <section id="resultsSection" class="panel hidden">
-    <button class="back" id="backFromResults">← Назад</button>
-    <h2 id="resultsTitle">Результаты поиска</h2>
-    <div id="resultsList"></div>
-  </section>
+<button class="card" type="button" data-part="Запчасти двигателя">
+<div class="emoji">⚙️</div>
+<p>Двигатель</p>
+</button>
 
-  <section id="detailSection" class="panel hidden">
-    <button class="back" id="backFromDetail">← Назад к результатам</button>
-    <h2 id="detailTitle">Деталь</h2>
-    <div id="detailContent"></div>
-  </section>
+<button class="card" type="button" data-part="Запчасти подвески">
+<div class="emoji">🔩</div>
+<p>Подвеска</p>
+</button>
 
-  <section class="panel">
-    <h2>Почему AUTO FIND AI?</h2>
-    <p class="sub" style="margin:10px 0 0">Подбор автомобильных запчастей по VIN, оригинальным номерам и аналогам. Наша цель — сделать поиск деталей проще и удобнее.</p>
-  </section>
-</main>
+<button class="card" type="button" data-part="Запчасти электрики">
+<div class="emoji">🔋</div>
+<p>Электрика</p>
+</button>
 
-<footer>AUTO FIND AI © 2026 · Умный поиск автозапчастей</footer>
+<button class="card" type="button" data-part="Масляные и воздушные фильтры">
+<div class="emoji">🛢️</div>
+<p>Фильтры и масла</p>
+</button>
+
+<button class="card" type="button" data-part="Кузовные детали">
+<div class="emoji">🚘</div>
+<p>Кузовные детали</p>
+</button>
+
+</div>
+</section>
+
+<section class="info">
+<h2>Почему AUTO FIND AI?</h2>
+<p>
+Определение автомобиля по VIN, поиск автозапчастей,
+сравнение предложений и помощь в проверке совместимости.
+</p>
+</section>
+
+<footer>
+AUTO FIND AI © 2026 · Умный поиск автозапчастей
+</footer>
 
 <script>
-"use strict";
 
-const $ = id => document.getElementById(id);
+const form = document.getElementById('searchForm');
+const vinInput = document.getElementById('vin');
+const partInput = document.getElementById('part');
+const result = document.getElementById('result');
+const button = document.getElementById('searchButton');
 
-let currentVin = "";
 let currentCar = null;
-let currentResults = [];
 
-const categories = [
-  {id:"brakes",name:"Тормозная система",icon:"🛑"},
-  {id:"engine",name:"Двигатель",icon:"⚙️"},
-  {id:"suspension",name:"Подвеска",icon:"🔩"},
-  {id:"electrical",name:"Электрика",icon:"🔋"},
-  {id:"filters",name:"Фильтры и масла",icon:"🛢️"},
-  {id:"body",name:"Кузовные детали",icon:"🚘"}
-];
-
-/* Демонстрационная запись. Совместимость ещё не подтверждена. */
-const partsDatabase = [
-  {
-    id:"test-front-pads",
-    category:"brakes",
-    name:"Передние тормозные колодки",
-    oem:"45022-S5D-406",
-    analog:"RIDEX 402B0536",
-    position:"Передняя ось",
-    keywords:"тормоз колодки передние brake pads",
-    note:"Демонстрационная запись. Совместимость с конкретной комплектацией не подтверждена. Перед покупкой проверьте деталь по VIN в каталоге производителя."
-  }
-];
-
-function normalize(value){
-  return value.trim().toUpperCase().replace(/\s+/g,"");
-}
-
-function validVin(vin){
-  return /^[A-HJ-NPR-Z0-9]{17}$/.test(vin);
-}
-
-function checkDigit(vin){
-  const map={A:1,B:2,C:3,D:4,E:5,F:6,G:7,H:8,J:1,K:2,L:3,M:4,N:5,P:7,R:9,S:2,T:3,U:4,V:5,W:6,X:7,Y:8,Z:9};
-  const weights=[8,7,6,5,4,3,2,10,0,9,8,7,6,5,4,3,2];
-  let sum=0;
-  for(let i=0;i<17;i++){
-    const n=/[0-9]/.test(vin[i])?Number(vin[i]):map[vin[i]];
-    if(n===undefined)return null;
-    sum+=n*weights[i];
-  }
-  const r=sum%11;
-  return r===10?"X":String(r);
-}
-
-function value(data,keys){
-  for(const key of keys){
-    const v=data[key];
-    if(v!==undefined&&v!==null&&String(v).trim()!=="")return String(v).trim();
-  }
-  return "";
-}
-
-function addInfo(label,val){
-  if(!val)return;
-  const box=document.createElement("div");
-  box.className="info";
-  const small=document.createElement("small");
-  small.textContent=label;
-  const strong=document.createElement("strong");
-  strong.textContent=val;
-  box.append(small,strong);
-  $("carInfo").appendChild(box);
-}
-
-async function searchVehicle(){
-  const vin=normalize($("vinInput").value);
-  const status=$("searchStatus");
-  const button=$("searchButton");
-
-  $("carSection").classList.add("hidden");
-  $("resultsSection").classList.add("hidden");
-  $("detailSection").classList.add("hidden");
-
-  if(!validVin(vin)){
-    status.className="status error";
-    status.textContent="Проверьте VIN: нужно 17 символов, без букв I, O и Q.";
-    return;
-  }
-
-  currentVin=vin;
-  button.disabled=true;
-  status.className="status";
-  status.textContent="Определяем автомобиль...";
-
-  try{
-    const url="https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/"+encodeURIComponent(vin)+"?format=json";
-    const response=await fetch(url);
-    if(!response.ok)throw new Error("Сервис декодирования временно недоступен.");
-
-    const json=await response.json();
-    const d=json.Results?.[0];
-    if(!d)throw new Error("Сервис не вернул данные.");
-
-    currentCar={
-      make:value(d,["Make"]),
-      model:value(d,["Model"]),
-      year:value(d,["ModelYear"]),
-      trim:value(d,["Trim"]),
-      engine:value(d,["EngineModel"]),
-      displacement:value(d,["DisplacementL"]),
-      cylinders:value(d,["EngineCylinders"]),
-      power:value(d,["EngineHP"]),
-      fuel:value(d,["FuelTypePrimary"]),
-      transmission:value(d,["TransmissionStyle"]),
-      body:value(d,["BodyClass"]),
-      country:value(d,["PlantCountry"])
-    };
-
-    if(!currentCar.make&&!currentCar.model&&!currentCar.year){
-      throw new Error("Не удалось определить автомобиль по этому VIN.");
-    }
-
-    renderCar();
-    renderCategories();
-    $("carSection").classList.remove("hidden");
-    status.className="status success";
-    status.textContent="Автомобиль найден. Теперь введите нужную запчасть или выберите категорию.";
-    $("carSection").scrollIntoView({behavior:"smooth",block:"start"});
-  }catch(e){
-    status.className="status error";
-    status.textContent=e.message||"Ошибка поиска. Попробуйте ещё раз.";
-  }finally{
-    button.disabled=false;
-  }
-}
-
-function renderCar(){
-  $("carTitle").textContent=[currentCar.year,currentCar.make,currentCar.model].filter(Boolean).join(" ");
-  $("carInfo").replaceChildren();
-
-  [
-    ["Марка",currentCar.make],
-    ["Модель",currentCar.model],
-    ["Год выпуска",currentCar.year],
-    ["Комплектация",currentCar.trim],
-    ["Двигатель",currentCar.engine],
-    ["Объём двигателя",currentCar.displacement?currentCar.displacement+" л":""],
-    ["Цилиндры",currentCar.cylinders],
-    ["Мощность",currentCar.power?currentCar.power+" л.с.":""],
-    ["Топливо",currentCar.fuel],
-    ["Коробка передач",currentCar.transmission],
-    ["Кузов",currentCar.body],
-    ["Страна производства",currentCar.country]
-  ].forEach(([k,v])=>addInfo(k,v));
-
-  $("vinWarning").replaceChildren();
-  const digit=checkDigit(currentVin);
-  if(digit&&digit!==currentVin[8]){
-    const warning=document.createElement("div");
-    warning.className="warning";
-    warning.textContent="Контрольная цифра VIN не совпадает с расчётом. Данные декодера всё равно показаны. Проверьте VIN по документам.";
-    $("vinWarning").appendChild(warning);
-  }
-}
-
-function renderCategories(){
-  const grid=$("categoryGrid");
-  grid.replaceChildren();
-
-  categories.forEach(cat=>{
-    const btn=document.createElement("button");
-    btn.type="button";
-    btn.className="category";
-
-    const icon=document.createElement("span");
-    icon.className="emoji";
-    icon.textContent=cat.icon;
-
-    const name=document.createElement("span");
-    name.className="cat-name";
-    name.textContent=cat.name;
-
-    btn.append(icon,name);
-    btn.addEventListener("click",()=>searchCategory(cat.id));
-    grid.appendChild(btn);
-  });
-}
-
-function showResults(title,parts){
-  currentResults=parts;
-  $("resultsTitle").textContent=title;
-  $("resultsList").replaceChildren();
-
-  if(parts.length===0){
-    const empty=document.createElement("div");
-    empty.className="empty";
-    empty.textContent="В нашей текущей демонстрационной базе совпадений нет. Это не означает, что такой детали не существует. Для реального подбора нужна подключённая база совместимости.";
-    $("resultsList").appendChild(empty);
-  }else{
-    parts.forEach(part=>{
-      const btn=document.createElement("button");
-      btn.type="button";
-      btn.className="part";
-
-      const name=document.createElement("strong");
-      name.textContent=part.name;
-
-      const small=document.createElement("small");
-      small.textContent="OEM: "+(part.oem||"не указан")+" · Аналог: "+(part.analog||"не указан");
-
-      btn.append(name,small);
-      btn.addEventListener("click",()=>showDetail(part));
-      $("resultsList").appendChild(btn);
-    });
-  }
-
-  $("detailSection").classList.add("hidden");
-  $("resultsSection").classList.remove("hidden");
-  $("resultsSection").scrollIntoView({behavior:"smooth",block:"start"});
-}
-
-function searchCategory(id){
-  const cat=categories.find(c=>c.id===id);
-  const matches=partsDatabase.filter(p=>p.category===id);
-  showResults(cat?cat.name:"Запчасти",matches);
-}
-
-function searchPart(){
-  const query=$("partSearchInput").value.trim().toLowerCase();
-  const status=$("partSearchStatus");
-
-  if(!query){
-    status.className="status error";
-    status.textContent="Введите название или номер запчасти.";
-    return;
-  }
-
-  const words=query.split(/\s+/).filter(Boolean);
-  const matches=partsDatabase.filter(part=>{
-    const haystack=[part.name,part.oem,part.analog,part.keywords].join(" ").toLowerCase();
-    return haystack.includes(query)||words.every(word=>haystack.includes(word));
-  });
-
-  status.className="status";
-  status.textContent=matches.length
-    ?"Найдено совпадений: "+matches.length
-    :"Совпадений в текущей базе пока нет.";
-
-  showResults("Результаты: "+query,matches);
-}
-
-function showDetail(part){
-  $("detailTitle").textContent=part.name;
-  $("detailContent").replaceChildren();
-
-  const rows=[
-    ["Автомобиль",[currentCar.year,currentCar.make,currentCar.model].filter(Boolean).join(" ")],
-    ["VIN",currentVin],
-    ["Название детали",part.name],
-    ["OEM-номер",part.oem],
-    ["Аналог",part.analog],
-    ["Расположение",part.position]
-  ];
-
-  rows.forEach(([label,val])=>{
-    if(!val)return;
-    const line=document.createElement("div");
-    line.className="detail-line";
-    const left=document.createElement("span");
-    left.textContent=label;
-    const right=document.createElement("strong");
-    right.textContent=val;
-    line.append(left,right);
-    $("detailContent").appendChild(line);
-  });
-
-  const note=document.createElement("p");
-  note.className="note";
-  note.textContent=part.note||"";
-  $("detailContent").appendChild(note);
-
-  $("resultsSection").classList.add("hidden");
-  $("detailSection").classList.remove("hidden");
-  $("detailSection").scrollIntoView({behavior:"smooth",block:"start"});
-}
-
-$("searchButton").addEventListener("click",searchVehicle);
-$("vinInput").addEventListener("keydown",e=>{if(e.key==="Enter")searchVehicle();});
-$("partSearchButton").addEventListener("click",searchPart);
-$("partSearchInput").addEventListener("keydown",e=>{if(e.key==="Enter")searchPart();});
-
-$("backFromResults").addEventListener("click",()=>{
-  $("resultsSection").classList.add("hidden");
-  $("carSection").scrollIntoView({behavior:"smooth",block:"start"});
+vinInput.addEventListener('input', () => {
+vinInput.value = vinInput.value
+.toUpperCase()
+.replace(/[^A-HJ-NPR-Z0-9]/g, '');
 });
 
-$("backFromDetail").addEventListener("click",()=>{
-  $("detailSection").classList.add("hidden");
-  $("resultsSection").classList.remove("hidden");
-  $("resultsSection").scrollIntoView({behavior:"smooth",block:"start"});
+// Выбор категории
+document.querySelectorAll('.card').forEach(card => {
+card.addEventListener('click', () => {
+partInput.value = card.dataset.part;
+document.querySelector('.panel').scrollIntoView({
+behavior:'smooth',
+block:'center'
 });
+partInput.focus();
+});
+});
+
+// Создание безопасной карточки
+function addElement(parent, tag, className, content) {
+const el = document.createElement(tag);
+if(className) el.className = className;
+el.textContent = content;
+parent.appendChild(el);
+return el;
+}
+
+// Поиск предложений
+function createSearchLinks(car, part) {
+
+const query = [
+part,
+car.Make,
+car.Model,
+car.ModelYear,
+car.EngineModel
+].filter(Boolean).join(' ');
+
+const encoded = encodeURIComponent(query);
+
+const sources = [
+{
+name:'Яндекс Маркет',
+url:'https://market.yandex.ru/search?text='+encoded
+},
+{
+name:'OZON',
+url:'https://www.ozon.ru/search/?text='+encoded
+},
+{
+name:'Wildberries',
+url:'https://www.wildberries.ru/catalog/0/search.aspx?search='+encoded
+},
+{
+name:'Google',
+url:'https://www.google.com/search?q='+encoded
+}
+];
+
+const title = addElement(
+result,'div','search-title','Где искать запчасть'
+);
+
+addElement(
+result,'div','search-description',
+'Поисковые запросы сформированы с учётом данных автомобиля.'
+);
+
+const links = document.createElement('div');
+links.className = 'search-links';
+
+sources.forEach(source => {
+const a = document.createElement('a');
+a.className = 'search-link';
+a.href = source.url;
+a.target = '_blank';
+a.rel = 'noopener noreferrer';
+a.textContent = 'Найти на '+source.name;
+links.appendChild(a);
+});
+
+result.appendChild(links);
+
+addElement(
+result,'div','warning',
+'Важно: это ссылки на поиск товаров, а не подтверждённые '+
+'совпадения. Перед покупкой обязательно проверь артикул '+
+'и совместимость по VIN у продавца.'
+);
+}
+
+form.addEventListener('submit', async (e) => {
+
+e.preventDefault();
+
+const vin = vinInput.value.trim();
+const part = partInput.value.trim();
+
+if(!/^[A-HJ-NPR-Z0-9]{17}$/.test(vin)) {
+result.style.display='block';
+result.textContent='Ошибка: VIN должен содержать 17 символов.';
+return;
+}
+
+result.style.display='block';
+result.textContent='Расшифровываем VIN...';
+
+button.disabled=true;
+button.textContent='ЗАГРУЗКА...';
+
+try {
+
+const url =
+'https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValuesExtended/' +
+encodeURIComponent(vin) + '?format=json';
+
+const response = await fetch(url);
+
+if(!response.ok) {
+throw new Error('Ошибка соединения с базой VIN.');
+}
+
+const data = await response.json();
+const car = data.Results && data.Results[0];
+
+if(!car || (!car.Make && !car.Model)) {
+throw new Error(
+car?.ErrorText || 'Не удалось определить автомобиль.'
+);
+}
+
+currentCar=car;
+result.replaceChildren();
+
+// Название автомобиля
+addElement(
+result,'div','car-title',
+[car.Make,car.Model].filter(Boolean).join(' ')
+);
+
+addElement(
+result,'div','car-subtitle',
+[car.ModelYear,car.Trim,car.BodyClass]
+.filter(Boolean).join(' · ') || 'Данные комплектации не указаны'
+);
+
+// Характеристики
+const grid=document.createElement('div');
+grid.className='car-grid';
+
+const fields=[
+['Двигатель',car.EngineModel],
+['Объём',car.DisplacementL
+? Number(car.DisplacementL).toFixed(2)+' л':''],
+['Мощность',car.EngineHP
+? car.EngineHP+' л.с.':''],
+['Коробка',car.TransmissionStyle==='Automatic'
+? 'Автомат':car.TransmissionStyle],
+['Передачи',car.TransmissionSpeeds],
+['Топливо',car.FuelTypePrimary==='Gasoline'
+? 'Бензин':car.FuelTypePrimary]
+];
+
+fields.forEach(([label,value])=>{
+if(!value)return;
+
+const item=document.createElement('div');
+item.className='car-item';
+
+addElement(item,'div','car-label',label);
+addElement(item,'div','car-value',String(value));
+
+grid.appendChild(item);
+});
+
+result.appendChild(grid);
+
+// Информация о детали
+addElement(
+result,'div','part-box',
+'🔧 Ищемая запчасть: '+part
+);
+
+// Формируем внешние поисковые ссылки
+createSearchLinks(car,part);
+
+// Предупреждения базы VIN
+if(car.ErrorCode && car.ErrorCode!=='0') {
+addElement(
+result,'div','warning',
+'База VIN сообщила о возможных ошибках расшифровки. '+
+'Проверь характеристики автомобиля по документам.'
+);
+}
+
+} catch(error) {
+
+result.replaceChildren();
+
+addElement(
+result,'div','warning',
+'Не удалось получить данные: '+error.message
+);
+
+} finally {
+
+button.disabled=false;
+button.textContent='НАЙТИ ЗАПЧАСТИ →';
+
+}
+
+});
+
 </script>
+
 </body>
 </html>
