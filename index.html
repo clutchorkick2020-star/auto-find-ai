@@ -47,15 +47,16 @@ button:disabled{opacity:.6}
 .info p{color:#93a3b8;line-height:1.7}
 footer{text-align:center;padding:30px 15px;color:#65758b;border-top:1px solid #202b3b;font-size:12px}
 @media(max-width:550px){
-.hero{margin-top:40px}
-.panel{padding:19px}
-.cards{grid-template-columns:repeat(2,1fr)}
-header{padding:18px 5%}
-.vehicle-grid{grid-template-columns:1fr 1fr}
+ .hero{margin-top:40px}
+ .panel{padding:19px}
+ .cards{grid-template-columns:repeat(2,1fr)}
+ header{padding:18px 5%}
+ .vehicle-grid{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
 <body>
+
 <header>
  <div class="logo">AUTO FIND <span>AI</span></div>
  <div class="tag">SMART PARTS SEARCH</div>
@@ -116,20 +117,52 @@ vinInput.addEventListener('input',()=>{
 function showMessage(message){
  result.style.display='block';
  result.replaceChildren();
+
  const box=document.createElement('div');
  box.className='message';
  box.textContent=message;
  result.appendChild(box);
 }
 
+// Самостоятельная проверка контрольной цифры VIN
+function isValidVinCheckDigit(vin){
+ const transliteration={
+  A:1,B:2,C:3,D:4,E:5,F:6,G:7,H:8,
+  J:1,K:2,L:3,M:4,N:5,P:7,R:9,
+  S:2,T:3,U:4,V:5,W:6,X:7,Y:8,Z:9
+ };
+
+ const weights=[8,7,6,5,4,3,2,10,0,9,8,7,6,5,4,3,2];
+
+ let sum=0;
+
+ for(let i=0;i<17;i++){
+  const char=vin[i];
+  const value=transliteration[char] ?? Number(char);
+
+  if(!Number.isFinite(value)) return false;
+
+  sum+=value*weights[i];
+ }
+
+ const remainder=sum%11;
+ const expected=remainder===10?'X':String(remainder);
+
+ return vin[8]===expected;
+}
+
 function addItem(container,label,value){
  if(!value || value==='Not Applicable' || value==='0') return;
+
  const item=document.createElement('div');
  item.className='vehicle-item';
+
  const small=document.createElement('small');
  small.textContent=label;
+
  const strong=document.createElement('strong');
  strong.textContent=value;
+
  item.append(small,strong);
  container.appendChild(item);
 }
@@ -145,39 +178,38 @@ form.addEventListener('submit',async(e)=>{
   return;
  }
 
+ const validCheckDigit=isValidVinCheckDigit(vin);
+
  searchButton.disabled=true;
  searchButton.textContent='ИДЁТ ПОИСК...';
+
  showMessage('Подключаемся к базе данных и определяем автомобиль...');
 
  try{
   const url='https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/'+encodeURIComponent(vin)+'?format=json';
+
   const response=await fetch(url);
 
-  if(!response.ok) throw new Error('API недоступен');
+  if(!response.ok){
+   throw new Error('API недоступен');
+  }
 
   const data=await response.json();
   const car=data.Results && data.Results[0];
 
-  if(!car){
-   showMessage('База не вернула данные по этому VIN. Проверь номер и попробуй ещё раз.');
-   return;
-  }
-
-  const errorText=car.ErrorText || '';
-  const checkDigitError=/does not calculate properly/i.test(errorText);
-
-  if(!car.Make && !car.Model){
-   showMessage('Не удалось определить автомобиль. Возможно, этот VIN отсутствует в базе NHTSA. Для автомобилей некоторых рынков база может не содержать данных.');
+  if(!car || (!car.Make && !car.Model)){
+   showMessage('Не удалось определить автомобиль. Возможно, этот VIN отсутствует в базе NHTSA. База ориентирована преимущественно на рынок США.');
    return;
   }
 
   result.replaceChildren();
   result.style.display='block';
 
-  if(checkDigitError){
+  // Предупреждение теперь определяется нашим алгоритмом
+  if(!validCheckDigit){
    const warning=document.createElement('div');
    warning.className='warning';
-   warning.textContent='Внимание: база сообщает о несовпадении контрольной цифры VIN (9-й символ). Но автомобиль удалось определить, поэтому мы показываем полученные данные. Проверь VIN по документам или табличке автомобиля.';
+   warning.textContent='Внимание: контрольная цифра VIN не совпадает с расчётом. Проверь номер по документам или табличке автомобиля.';
    result.appendChild(warning);
   }
 
@@ -224,6 +256,7 @@ form.addEventListener('submit',async(e)=>{
 
  }catch(error){
   showMessage('Не удалось связаться с базой данных. Проверь интернет-соединение и попробуй ещё раз.');
+  console.error(error);
  }finally{
   searchButton.disabled=false;
   searchButton.textContent='ОПРЕДЕЛИТЬ АВТОМОБИЛЬ →';
